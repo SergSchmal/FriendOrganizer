@@ -2,7 +2,7 @@
 
 namespace FriendOrganizer.UI.ViewModel
 {
-    public interface IFrienDetailViewModel
+    public interface IFriendDetailViewModel
     {
         Task LoadAsync(int friendId);
     }

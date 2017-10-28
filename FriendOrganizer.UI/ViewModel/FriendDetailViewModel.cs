@@ -1,17 +1,25 @@
 ﻿using System.Threading.Tasks;
 using FriendOrganizer.Model;
 using FriendOrganizer.UI.Data;
+using FriendOrganizer.UI.Event;
+using Prism.Events;
 
 namespace FriendOrganizer.UI.ViewModel
 {
-    public class FrienDetailViewModel : ViewModelBase, IFrienDetailViewModel
+    public class FriendDetailViewModel : ViewModelBase, IFriendDetailViewModel
     {
         private readonly IFriendDataService _dataService;
         private Friend _friend;
 
-        public FrienDetailViewModel(IFriendDataService dataService)
+        public FriendDetailViewModel(IFriendDataService dataService, IEventAggregator eventAggregator)
         {
             _dataService = dataService;
+            eventAggregator.GetEvent<OpenFriendDetailViewEvent>().Subscribe(OnOpenFriend);
+        }
+
+        private async void OnOpenFriend(int friendId)
+        {
+            await LoadAsync(friendId);
         }
 
         public async Task LoadAsync(int friendId)

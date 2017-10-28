@@ -12,6 +12,7 @@
         <ListView
             Margin="0,2,0,-2"
             DisplayMemberPath="DisplayMember"
-            ItemsSource="{Binding Friends}" />
+            ItemsSource="{Binding Friends}"
+            SelectedItem="{Binding SelectedFriend}" />
     </Grid>
 </UserControl>

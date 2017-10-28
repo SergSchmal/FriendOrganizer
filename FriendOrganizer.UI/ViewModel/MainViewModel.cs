@@ -1,16 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using FriendOrganizer.Model;
-using FriendOrganizer.UI.Data;
+﻿using System.Threading.Tasks;
 
 namespace FriendOrganizer.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        public MainViewModel(INavigationViewModel navigationViewModel, IFrienDetailViewModel frienDetailViewModel)
+        public MainViewModel(INavigationViewModel navigationViewModel, IFriendDetailViewModel friendDetailViewModel)
         {
             NavigationViewModel = navigationViewModel;
-            FrienDetailViewModel = frienDetailViewModel;
+            FriendDetailViewModel = friendDetailViewModel;
         }
 
 
@@ -20,6 +17,6 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         public INavigationViewModel NavigationViewModel { get; }
-        public IFrienDetailViewModel FrienDetailViewModel { get; }
+        public IFriendDetailViewModel FriendDetailViewModel { get; }
     }
 }
