@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:FriendOrganizer.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:FriendOrganizer.UI.View"
     Title="MainWindow"
     Width="525"
     Height="350"
@@ -15,11 +16,7 @@
             <ColumnDefinition Width="200" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListView
-            Margin="0,2,0,-2"
-            DisplayMemberPath="FirstName"
-            ItemsSource="{Binding Friends}"
-            SelectedItem="{Binding SelectedFriend, Mode=TwoWay}" />
+        <view:NavigationView DataContext="{Binding NavigationViewModel}" />
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

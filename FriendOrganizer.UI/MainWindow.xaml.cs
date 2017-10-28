@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using FriendOrganizer.UI.ViewModel;
 
@@ -19,9 +20,9 @@ namespace FriendOrganizer.UI
             Loaded += OnLoaded;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            _viewModel.Load();
+            await _viewModel.LoadAsync();
         }
     }
 }
