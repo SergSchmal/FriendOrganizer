@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Margin="10,10,10,0" Content="FirstName" />
         <TextBox
@@ -38,5 +39,12 @@
             Grid.Row="5"
             Margin="10,0,10,10"
             Text="{Binding Friend.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel Grid.Row="7" Orientation="Horizontal">
+            <Button
+                Width="125"
+                Margin="10"
+                Command="{Binding SaveCommand}"
+                Content="Save" />
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using FriendOrganizer.Model;
 using FriendOrganizer.UI.Data;
@@ -11,13 +12,20 @@ namespace FriendOrganizer.UI.ViewModel
     {
         private readonly IFriendLookupDataService _friendLookupDataService;
         private readonly IEventAggregator _eventAggregator;
-        private LookupItem _selectedFriend;
+        private NagationItemViewModel _selectedFriend;
 
         public NavigationViewModel(IFriendLookupDataService friendLookupDataService, IEventAggregator eventAggregator)
         {
             _friendLookupDataService = friendLookupDataService;
             _eventAggregator = eventAggregator;
-            Friends = new ObservableCollection<LookupItem>();
+            Friends = new ObservableCollection<NagationItemViewModel>();
+            _eventAggregator.GetEvent<AfterSaveFriendEvent>().Subscribe(AfterSaveFriend);
+        }
+
+        private async void AfterSaveFriend(AfterSaveFriendEventArgs args)
+        {
+            var lookupItem = Friends.Single(l => l.Id == args.Id);
+            lookupItem.DisplayMember = args.DisplayMember;
         }
 
         public async Task LoadAsync()
@@ -26,13 +34,13 @@ namespace FriendOrganizer.UI.ViewModel
             Friends.Clear();
             foreach (var item in lookup)
             {
-                Friends.Add(item);
+                Friends.Add(new NagationItemViewModel(item.Id, item.DisplayMember));
             }
         }
 
-        public ObservableCollection<LookupItem> Friends { get; }
+        public ObservableCollection<NagationItemViewModel> Friends { get; }
 
-        public LookupItem SelectedFriend
+        public NagationItemViewModel SelectedFriend
         {
             get { return _selectedFriend; }
             set
@@ -41,7 +49,8 @@ namespace FriendOrganizer.UI.ViewModel
                 _selectedFriend = value;
                 OnPropertyChanged();
                 if (_selectedFriend != null)
-                    _eventAggregator.GetEvent<OpenFriendDetailViewEvent>().Publish(_selectedFriend.Id);
+                    _eventAggregator.GetEvent<OpenFriendDetailViewEvent>().Publish(_selectedFriend.
+                        Id);
             }
         }
     }

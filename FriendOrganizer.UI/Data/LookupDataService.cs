@@ -21,7 +21,7 @@ namespace FriendOrganizer.UI.Data
         {
             using (var ctx = _contextCreator())
             {
-                return await ctx.Friends.AsNoTracking().Select(f => new LookupItem {Id = f.Id, DisplayMember = f.FirstName}).ToListAsync();
+                return await ctx.Friends.AsNoTracking().Select(f => new LookupItem {Id = f.Id, DisplayMember = f.FirstName + " " + f.LastName}).ToListAsync();
             }
         }
     }
