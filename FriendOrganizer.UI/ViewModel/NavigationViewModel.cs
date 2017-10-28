@@ -49,8 +49,7 @@ namespace FriendOrganizer.UI.ViewModel
                 _selectedFriend = value;
                 OnPropertyChanged();
                 if (_selectedFriend != null)
-                    _eventAggregator.GetEvent<OpenFriendDetailViewEvent>().Publish(_selectedFriend.
-                        Id);
+                    _eventAggregator.GetEvent<OpenFriendDetailViewEvent>().Publish(_selectedFriend.Id);
             }
         }
     }
