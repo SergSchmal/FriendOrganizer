@@ -10,24 +10,24 @@ namespace FriendOrganizer.UI.Wrapper
         {
         }
 
-        public int Id => Model.Id;
+        public int Id { get { return Model.Id; } }
 
         public string FirstName
         {
-            get => GetValue<string>();
-            set => SetValue(value);
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
 
         public string LastName
         {
-            get => GetValue<string>();
-            set => SetValue(value);
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
 
         public string Email
         {
-            get => GetValue<string>();
-            set => SetValue(value);
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
 
         protected override IEnumerable<string> ValidateProperty(string propertyName)
