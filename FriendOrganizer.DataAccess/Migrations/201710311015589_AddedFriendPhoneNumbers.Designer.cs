@@ -13,7 +13,7 @@ namespace FriendOrganizer.DataAccess.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201710310839486_AddedFriendPhoneNumbers"; }
+            get { return "201710311015589_AddedFriendPhoneNumbers"; }
         }
         
         string IMigrationMetadata.Source

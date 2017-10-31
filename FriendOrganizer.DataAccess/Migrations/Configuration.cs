@@ -31,7 +31,7 @@ namespace FriendOrganizer.DataAccess.Migrations
             context.SaveChanges();
 
             context.FriendPhoneNumbers.AddOrUpdate(pn => pn.Number,
-                new FriendPhoneNumber {Number = "+49 12345678", FrinedId = context.Friends.First().Id});
+                new FriendPhoneNumber {Number = "+49 12345678", FriendId = context.Friends.First().Id});
         }
     }
 }
