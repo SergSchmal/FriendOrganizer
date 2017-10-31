@@ -46,7 +46,7 @@ namespace FriendOrganizer.UI.ViewModel
                 if (value == _hasChanges) return;
                 _hasChanges = value;
                 OnPropertyChanged();
-                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand) SaveCommand).RaiseCanExecuteChanged();
             }
         }
 
