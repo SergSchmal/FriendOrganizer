@@ -17,8 +17,8 @@ namespace FriendOrganizer.UI.ViewModel
             _friendLookupDataService = friendLookupDataService;
             _eventAggregator = eventAggregator;
             Friends = new ObservableCollection<NagationItemViewModel>();
-            _eventAggregator.GetEvent<AfterDetailSaveEvent>().Subscribe(AfterDetailSaved);
-            _eventAggregator.GetEvent<AfterDetailDeleteEvent>().Subscribe(AfterDetailDeleted);
+            _eventAggregator.GetEvent<AfterDetailSavedEvent>().Subscribe(AfterDetailSaved);
+            _eventAggregator.GetEvent<AfterDetailDeletedEvent>().Subscribe(AfterDetailDeleted);
         }
 
         public ObservableCollection<NagationItemViewModel> Friends { get; }
