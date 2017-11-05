@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:model="clr-namespace:FriendOrganizer.Model;assembly=FriendOrganizer.Model"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -41,6 +42,35 @@
             Grid.Row="5"
             Margin="10,0,10,10"
             Value="{Binding Meeting.DateTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid Grid.Row="6" Margin="10 0">
+            <Grid.Resources>
+                <DataTemplate DataType="{x:Type model:Friend}">
+                    <TextBlock><Run Text="{Binding FirstName}"/> <Run Text="{Binding LastName}"/></TextBlock>
+                </DataTemplate>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <Label Content="Added Friends"/>
+            <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AddedFriends}"
+                      SelectedItem="{Binding SelectedAddedFriend}"/>
+            
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <Button Content="&lt;&lt;" Margin="10" Command="{Binding AddFriendCommand}"/>
+                <Button Content="&gt;&gt;" Margin="10 0 10 10" Command="{Binding RemoveFriendCommand}"/>
+            </StackPanel>
+
+            <Label Grid.Row="0" Grid.Column="2" Content="Availabale Friends"/>
+            <ListView Grid.Row="1" Grid.Column="2" ItemsSource="{Binding AvailableFriends}"
+                      SelectedItem="{Binding SelectedAvailabaleFriend}"/>
+        </Grid>
         <StackPanel Grid.Row="7" Orientation="Horizontal">
             <Button
                 Width="75"
