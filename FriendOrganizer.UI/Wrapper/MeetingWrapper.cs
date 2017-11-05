@@ -1,4 +1,5 @@
-﻿using FriendOrganizer.Model;
+﻿using System;
+using FriendOrganizer.Model;
 
 namespace FriendOrganizer.UI.Wrapper
 {
@@ -13,6 +14,18 @@ namespace FriendOrganizer.UI.Wrapper
         public string Title
         {
             get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public DateTime DateFrom
+        {
+            get { return GetValue<DateTime>(); }
+            set { SetValue(value); }
+        }
+
+        public DateTime DateTo
+        {
+            get { return GetValue<DateTime>(); }
             set { SetValue(value); }
         }
     }
