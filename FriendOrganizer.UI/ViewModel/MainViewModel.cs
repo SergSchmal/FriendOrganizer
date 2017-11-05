@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Autofac.Features.Indexed;
 using FriendOrganizer.UI.Event;
 using FriendOrganizer.UI.View.Services;
 using Prism.Commands;
@@ -10,19 +11,19 @@ namespace FriendOrganizer.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IIndex<string, IDetailViewModel> _detailViewModelCreator;
         private readonly IMessageDialogService _messageDialogService;
-        private Func<IFriendDetailViewModel> _friendDetailViewModelCreator;
         private IDetailViewModel _detailViewModel;
 
-        public MainViewModel(INavigationViewModel navigationViewModel, Func<IFriendDetailViewModel> friendDetailViewModelCreator, 
+        public MainViewModel(INavigationViewModel navigationViewModel, 
+            IIndex<string, IDetailViewModel> detailViewModelCreator,
             IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
-            _eventAggregator = eventAggregator;
+            _detailViewModelCreator = detailViewModelCreator;
             _messageDialogService = messageDialogService;
-            _friendDetailViewModelCreator = friendDetailViewModelCreator;
-            _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenDetailView);
-            _eventAggregator.GetEvent<AfterDetailDeletedEvent>().Subscribe(AfterDetailDeleted);
+            var eventAggregator1 = eventAggregator;
+            eventAggregator1.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenDetailView);
+            eventAggregator1.GetEvent<AfterDetailDeletedEvent>().Subscribe(AfterDetailDeleted);
             NavigationViewModel = navigationViewModel;
             CreateNewDetailCommand = new DelegateCommand<Type>(OnCreateNewDetailExecute);
         }
@@ -54,12 +55,7 @@ namespace FriendOrganizer.UI.ViewModel
                 var result = _messageDialogService.ShowOKCancelDialog("You've made changes. Navigate away?", "Question");
                 if (result == MessageDialogResult.Cancel) return;
             }
-            switch (args.ViewModelName)
-            {
-                case nameof(FriendDetailViewModel):
-                    DetailViewModel = _friendDetailViewModelCreator();
-                    break;
-            }
+            DetailViewModel = _detailViewModelCreator[args.ViewModelName];
             await DetailViewModel.LoadAsync(args.Id);
         }
 
