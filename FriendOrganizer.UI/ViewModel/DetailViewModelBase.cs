@@ -52,7 +52,7 @@ namespace FriendOrganizer.UI.ViewModel
             protected set { _id = value; }
         }
 
-        public abstract Task LoadAsync(int? id);
+        public abstract Task LoadAsync(int id);
 
         public ICommand DeleteCommand { get; private set; }
 
