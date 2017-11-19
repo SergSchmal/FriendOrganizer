@@ -96,7 +96,9 @@
     <Compile Include="Data\Repositories\GenericRepository.cs" />
     <Compile Include="Data\Repositories\IGenericRepository.cs" />
     <Compile Include="Data\Repositories\IMeetingRepository.cs" />
+    <Compile Include="Data\Repositories\IProgrammingLanguageRepository.cs" />
     <Compile Include="Data\Repositories\MeetingRepository.cs" />
+    <Compile Include="Data\Repositories\ProgrammingLanguageRepository.cs" />
     <Compile Include="Event\AfterDetailClosedEvent.cs" />
     <Compile Include="Event\AfterDetailDeletedEvent.cs" />
     <Compile Include="Event\OpenFriendDetailViewEvent.cs" />
@@ -113,7 +115,7 @@
     <Compile Include="ViewModel\MeetingDetailViewModel.cs" />
     <Compile Include="ViewModel\NagationItemViewModel.cs" />
     <Compile Include="ViewModel\NavigationViewModel.cs" />
-    <Compile Include="ViewModel\ProgrammingLanguageDetailViewMOdel.cs" />
+    <Compile Include="ViewModel\ProgrammingLanguageDetailViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\FriendDetailView.xaml.cs">
       <DependentUpon>FriendDetailView.xaml</DependentUpon>
@@ -134,6 +136,7 @@
     <Compile Include="Wrapper\MeetingWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\NotifyDataErrorInfoBase.cs" />
+    <Compile Include="Wrapper\ProgrammingLanguageWrapper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
