@@ -7,6 +7,11 @@
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
