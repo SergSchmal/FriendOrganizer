@@ -24,8 +24,8 @@ namespace FriendOrganizer.UI.ViewModel
             EventAggregator = eventAggregator;
             MessageDialogService = messageDialogService;
             SaveCommand = new DelegateCommand(() => OnSaveExecute(), OnSaveCanExecute);
-            DeleteCommand = new DelegateCommand(OnDeleteExecute);
-            CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
+            DeleteCommand = new DelegateCommand(() => OnDeleteExecute());
+            CloseDetailViewCommand = new DelegateCommand(() => OnCloseDetailViewExecute());
         }
 
         public DelegateCommand CloseDetailViewCommand { get; }
@@ -34,7 +34,7 @@ namespace FriendOrganizer.UI.ViewModel
 
         protected abstract void OnSaveExecute();
 
-        protected abstract void OnDeleteExecute();
+        protected abstract Task OnDeleteExecute();
 
         public int Id
         {
@@ -100,11 +100,11 @@ namespace FriendOrganizer.UI.ViewModel
                     });
         }
 
-        protected virtual void OnCloseDetailViewExecute()
+        protected virtual async Task OnCloseDetailViewExecute()
         {
             if (HasChanges)
             {
-                var result = MessageDialogService.ShowOKCancelDialog("You've made changes. Close this item?", "Question");
+                var result = await MessageDialogService.ShowOKCancelDialogAsync("You've made changes. Close this item?", "Question");
                 if (result == MessageDialogResult.Cancel) return;
             }
             EventAggregator.GetEvent<AfterDetailClosedEvent>().Publish(new AfterDetailClosedEventArgs
@@ -125,12 +125,12 @@ namespace FriendOrganizer.UI.ViewModel
                 var databaseValues = ex.Entries.Single().GetDatabaseValues();
                 if (databaseValues == null)
                 {
-                    MessageDialogService.ShowInfoDialog("The entity has been deleted by another user");
+                    await MessageDialogService.ShowInfoDialogAsync("The entity has been deleted by another user");
                     RaiseDetailDeletedEvent(Id);
                     return;
                 }
 
-                var result = MessageDialogService.ShowOKCancelDialog("The entity has been changed in " +
+                var result = await MessageDialogService.ShowOKCancelDialogAsync("The entity has been changed in " +
                                                                      "the meantime by someone else. Click OK to save jour changes anyway, click Cancel " +
                                                                      "to reload the entity from the database.", "Question");
                 if (result == MessageDialogResult.OK)

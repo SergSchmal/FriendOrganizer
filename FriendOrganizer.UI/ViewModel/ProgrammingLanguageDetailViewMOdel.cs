@@ -101,13 +101,13 @@ namespace FriendOrganizer.UI.ViewModel
                 {
                     ex = ex.InnerException;
                 }
-                MessageDialogService.ShowInfoDialog("Error while saving the entities, " +
-                    "the data will be reloaded. Details: " + ex.Message);
+                await MessageDialogService.ShowInfoDialogAsync("Error while saving the entities, " +
+                                                    "the data will be reloaded. Details: " + ex.Message);
                 await LoadAsync(Id);
             }
         }
 
-        protected override void OnDeleteExecute()
+        protected override Task OnDeleteExecute()
         {
             throw new NotImplementedException();
         }
@@ -129,8 +129,8 @@ namespace FriendOrganizer.UI.ViewModel
 
             if (isReferenced)
             {
-                MessageDialogService.ShowInfoDialog($"The language {SelectedProgrammingLanguage.Name} " +
-                    "can't be removed, as it is referenced by at least one friend");
+                await MessageDialogService.ShowInfoDialogAsync($"The language {SelectedProgrammingLanguage.Name} " +
+                                                    "can't be removed, as it is referenced by at least one friend");
                 return;
             }
 

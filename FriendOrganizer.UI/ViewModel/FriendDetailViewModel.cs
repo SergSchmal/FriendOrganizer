@@ -173,15 +173,14 @@ namespace FriendOrganizer.UI.ViewModel
             return friend;
         }
 
-        protected override async void OnDeleteExecute()
+        protected override async Task OnDeleteExecute()
         {
             if (await _friendRepository.HasMeetingsAsync(Friend.Id))
             {
-                MessageDialogService.ShowInfoDialog($"{Friend.FirstName} {Friend.LastName} can't be deleted, as this friend is part at least one meetimg");
+                await MessageDialogService.ShowInfoDialogAsync($"{Friend.FirstName} {Friend.LastName} can't be deleted, as this friend is part at least one meetimg");
                 return;
             }
-            var result = MessageDialogService.ShowOKCancelDialog($"Do you really want to delete the friend {Friend.FirstName} {Friend.LastName}",
-                "Question");
+            var result = await MessageDialogService.ShowOKCancelDialogAsync($"Do you really want to delete the friend {Friend.FirstName} {Friend.LastName}", "Question");
             if (result == MessageDialogResult.OK)
             {
                 _friendRepository.Remove(Friend.Model);
