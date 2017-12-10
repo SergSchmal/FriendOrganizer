@@ -19,7 +19,6 @@ namespace FriendOrganizer.UI.ViewModel
         {
             _programmingLanguageRepository = programmingLanguageRepository;
             Title = "Programming Languages";
-            Title = "Programming Languages";
             ProgrammingLanguages = new ObservableCollection<ProgrammingLanguageWrapper>();
         }
 
@@ -67,6 +66,7 @@ namespace FriendOrganizer.UI.ViewModel
         {
             await _programmingLanguageRepository.SaveAsync();
             HasChanges = _programmingLanguageRepository.HasChanges();
+            RaiseCollectionSavedEvent();
         }
 
         protected override void OnDeleteExecute()

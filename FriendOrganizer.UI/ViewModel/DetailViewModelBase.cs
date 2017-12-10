@@ -32,20 +32,6 @@ namespace FriendOrganizer.UI.ViewModel
 
         protected abstract void OnDeleteExecute();
 
-        protected virtual void OnCloseDetailViewExecute()
-        {
-            if (HasChanges)
-            {
-                var result = MessageDialogService.ShowOKCancelDialog("You've made changes. Close this item?", "Question");
-                if (result == MessageDialogResult.Cancel) return;
-            }
-            EventAggregator.GetEvent<AfterDetailClosedEvent>().Publish(new AfterDetailClosedEventArgs
-            {
-                Id = Id,
-                ViewModelName = GetType().Name
-            });
-        }
-
         public int Id
         {
             get { return _id; }
@@ -99,6 +85,29 @@ namespace FriendOrganizer.UI.ViewModel
                     DisplayMember = displayMember,
                     ViewModelName = this.GetType().Name
                 });
+        }
+
+        protected virtual void RaiseCollectionSavedEvent()
+        {
+            EventAggregator.GetEvent<AfterCollectionSavedEvent>()
+                .Publish(new AfterCollectionSavedEventArgs
+                    {
+                        ViewModelName = this.GetType().Name
+                    });
+        }
+
+        protected virtual void OnCloseDetailViewExecute()
+        {
+            if (HasChanges)
+            {
+                var result = MessageDialogService.ShowOKCancelDialog("You've made changes. Close this item?", "Question");
+                if (result == MessageDialogResult.Cancel) return;
+            }
+            EventAggregator.GetEvent<AfterDetailClosedEvent>().Publish(new AfterDetailClosedEventArgs
+            {
+                Id = Id,
+                ViewModelName = GetType().Name
+            });
         }
     }
 }
