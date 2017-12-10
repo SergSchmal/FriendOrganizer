@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using FriendOrganizer.Model;
 using FriendOrganizer.UI.Event;
 using FriendOrganizer.UI.View.Services;
 using Prism.Commands;
@@ -109,5 +113,43 @@ namespace FriendOrganizer.UI.ViewModel
                 ViewModelName = GetType().Name
             });
         }
+
+        protected async Task SaveWithOptimistycConcurrencyAsync(Func<Task> saveFunc, Action afterSaveAction)
+        {
+            try
+            {
+                await saveFunc();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                var databaseValues = ex.Entries.Single().GetDatabaseValues();
+                if (databaseValues == null)
+                {
+                    MessageDialogService.ShowInfoDialog("The entity has been deleted by another user");
+                    RaiseDetailDeletedEvent(Id);
+                    return;
+                }
+
+                var result = MessageDialogService.ShowOKCancelDialog("The entity has been changed in " +
+                                                                     "the meantime by someone else. Click OK to save jour changes anyway, click Cancel " +
+                                                                     "to reload the entity from the database.", "Question");
+                if (result == MessageDialogResult.OK)
+                {
+                    // Update the original values
+                    var entry = ex.Entries.Single();
+                    entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                    await saveFunc();
+                }
+                else
+                {
+                    //Reload data from the database
+                    await ex.Entries.Single().ReloadAsync();
+                    await LoadAsync(Id);
+                }
+            }
+
+            afterSaveAction();
+        }
+
     }
 }
