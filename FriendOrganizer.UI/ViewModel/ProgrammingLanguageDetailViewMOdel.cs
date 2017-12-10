@@ -19,6 +19,7 @@ namespace FriendOrganizer.UI.ViewModel
         {
             _programmingLanguageRepository = programmingLanguageRepository;
             Title = "Programming Languages";
+            Title = "Programming Languages";
             ProgrammingLanguages = new ObservableCollection<ProgrammingLanguageWrapper>();
         }
 
