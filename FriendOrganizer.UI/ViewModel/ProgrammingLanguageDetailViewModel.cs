@@ -88,9 +88,12 @@ namespace FriendOrganizer.UI.ViewModel
         {
             try
             {
-                await _programmingLanguageRepository.SaveAsync();
-                HasChanges = _programmingLanguageRepository.HasChanges();
-                RaiseCollectionSavedEvent();
+                await SaveWithOptimistycConcurrencyAsync(_programmingLanguageRepository.SaveAsync,
+                    () =>
+                    {
+                        HasChanges = _programmingLanguageRepository.HasChanges();
+                        RaiseCollectionSavedEvent();
+                    });
             }
             catch (Exception ex)
             {
