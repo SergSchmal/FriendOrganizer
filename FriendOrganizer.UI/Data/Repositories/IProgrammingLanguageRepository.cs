@@ -1,4 +1,4 @@
-﻿using FriendOrganizer.Model;
+﻿ using FriendOrganizer.Model;
 
 namespace FriendOrganizer.UI.Data.Repositories
 {

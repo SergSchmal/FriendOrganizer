@@ -24,29 +24,15 @@ namespace FriendOrganizer.UI.ViewModel
 
         public ObservableCollection<ProgrammingLanguageWrapper> ProgrammingLanguages { get; }
 
-        protected override bool OnSaveCanExecute()
-        {
-            return HasChanges && ProgrammingLanguages.All(p => p.HasErrors);
-        }
-
-        protected override async void OnSaveExecute()
-        {
-            await _programmingLanguageRepository.SaveAsync();
-            HasChanges = _programmingLanguageRepository.HasChanges();
-        }
-
-        protected override void OnDeleteExecute()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override async Task LoadAsync(int id)
         {
             Id = id;
+
             foreach (var wrapper in ProgrammingLanguages)
             {
                 wrapper.PropertyChanged -= Wrapper_PropertyChanged;
             }
+
             ProgrammingLanguages.Clear();
 
             var languages = await _programmingLanguageRepository.GetAllAsync();
@@ -59,16 +45,32 @@ namespace FriendOrganizer.UI.ViewModel
             }
         }
 
-        private void Wrapper_PropertyChanged(object sender, PropertyChangedEventArgs args)
+        private void Wrapper_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!HasChanges)
             {
                 HasChanges = _programmingLanguageRepository.HasChanges();
             }
-            if (args.PropertyName == nameof(ProgrammingLanguageWrapper.HasErrors))
+            if (e.PropertyName == nameof(ProgrammingLanguageWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
+        }
+
+        protected override bool OnSaveCanExecute()
+        {
+            return HasChanges && ProgrammingLanguages.All(p => !p.HasErrors);
+        }
+
+        protected override async void OnSaveExecute()
+        {
+            await _programmingLanguageRepository.SaveAsync();
+            HasChanges = _programmingLanguageRepository.HasChanges();
+        }
+
+        protected override void OnDeleteExecute()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
