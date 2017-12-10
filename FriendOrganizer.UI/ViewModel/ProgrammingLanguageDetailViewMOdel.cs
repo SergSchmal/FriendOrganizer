@@ -25,7 +25,7 @@ namespace FriendOrganizer.UI.ViewModel
             ProgrammingLanguages = new ObservableCollection<ProgrammingLanguageWrapper>();
 
             AddCommand = new DelegateCommand(OnAddExecute);
-            RemoveCommand = new DelegateCommand(OnRemoveCommand, OnRemoveCanExecute);
+            RemoveCommand = new DelegateCommand(OnRemoveExecute, OnRemoveCanExecute);
         }
 
         public DelegateCommand RemoveCommand { get; }
@@ -120,8 +120,17 @@ namespace FriendOrganizer.UI.ViewModel
             wrapper.Name = "";
         }
 
-        private void OnRemoveCommand()
+        private async void OnRemoveExecute()
         {
+            var isReferenced = await _programmingLanguageRepository.IsReferencedByFriendAsync(SelectedProgrammingLanguage.Id);
+
+            if (isReferenced)
+            {
+                MessageDialogService.ShowInfoDialog($"The language {SelectedProgrammingLanguage.Name} " +
+                    "can't be removed, as it is referenced by at least one friend");
+                return;
+            }
+
             SelectedProgrammingLanguage.PropertyChanged -= Wrapper_PropertyChanged;
             _programmingLanguageRepository.Remove(SelectedProgrammingLanguage.Model);
             ProgrammingLanguages.Remove(SelectedProgrammingLanguage);
